@@ -17,7 +17,8 @@ class BaseModel:
                     if k != "created_at" and k != "updated_at":
                         setattr(self, k, v)
                     else:
-                        setattr(self, k, datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f"))
+                        setattr(self, k, datetime.strptime(
+                            v, "%Y-%m-%dT%H:%M:%S.%f"))
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
@@ -25,7 +26,8 @@ class BaseModel:
 
     def __str__(self):
         """ prints: [<class name>] (<self.id>) <self.__dict__> """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """ updates the public instance attribute
