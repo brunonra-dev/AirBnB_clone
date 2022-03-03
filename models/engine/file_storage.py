@@ -11,6 +11,7 @@ class FileStorage:
     JSON file and deserializes JSON file to instances"""
     __file_path = "file.json"
     __objects = {}
+    __classes = {'BaseModel': BaseModel}
 
     @classmethod
     def all(self):
@@ -44,4 +45,4 @@ class FileStorage:
             des = json.load(f)
             for k, v in des.items():
                 cls = v['__class__']
-                self.__objects[k] = BaseModel(v)
+                self.__objects[k] = self.__classes[cls](**v)
