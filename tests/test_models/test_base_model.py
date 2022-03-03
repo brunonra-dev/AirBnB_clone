@@ -1,38 +1,35 @@
 """
 Base Model Tests
 """
+import unittest, os, pycodestyle
 from datetime import datetime
-import unittest
-
-#import pycodestyle
-
 from models.base_model import BaseModel
 
 
 class test_base_model(unittest.TestCase):
     """Tests"""
 
-    # def test_pep8_base_model(self):
-    #     """
-    #     Test that checks PEP8 base_model.py
-    #     """
-    #     syntax = pycodestyle.StyleGuide(quit=True)
-    #     check = syntax.check_files(['models/base_model.py'])
-    #     self.assertEqual(
-    #         check.total_errors, 0,
-    #         "Pycodestyle errors found in base_model.py"
-    #     )
+    def test_pep8_base_model(self):
+        """
+        Test that checks PEP8 base_model.py
+        """
+        syntax = pycodestyle.StyleGuide(quit=True)
+        check = syntax.check_files(['models/base_model.py'])
+        self.assertEqual(
+            check.total_errors, 0,
+            "Pycodestyle errors found in base_model.py"
+        )
 
-    # def test_pep8_base_self(self):
-    #     """
-    #     Test that checks PEP8 test_base_model.py
-    #     """
-    #     syntax = pycodestyle.StyleGuide(quit=True)
-    #     check = syntax.check_files(['tests/test_models/test_base_model.py'])
-    #     self.assertEqual(
-    #         check.total_errors, 0,
-    #         "Pycodestyle errors found in test_base.py"
-    #     )
+    def test_pep8_base_self(self):
+        """
+        Test that checks PEP8 test_base_model.py
+        """
+        syntax = pycodestyle.StyleGuide(quit=True)
+        check = syntax.check_files(['tests/test_models/test_base_model.py'])
+        self.assertEqual(
+            check.total_errors, 0,
+            "Pycodestyle errors found in test_base.py"
+        )
 
     def test_docum(self):
         """test for documentation"""
@@ -85,6 +82,7 @@ class test_base_model(unittest.TestCase):
     #     """check json"""
     #     self.assertTrue()
 
+    
 
 if __name__ == '__main__':
     unittest.main()
