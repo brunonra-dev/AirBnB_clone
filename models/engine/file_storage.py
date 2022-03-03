@@ -4,8 +4,7 @@ module that defines a FileStorage class
 """
 import json
 from os import path
-from collections import namedtuple
-
+from models.base_model import BaseModel
 
 class FileStorage:
     """ class that  that serializes instances to a
@@ -22,42 +21,27 @@ class FileStorage:
     def new(self, obj):
         """ sets in __objects the obj
         with key <obj class name>.id """
-        if obj is not None:
-            id_o = obj.id
-            class_name = self.__class__.__name__
-            self.__objects[class_name + "." + id_o] = obj.__dict__
-        
-    @staticmethod
-    def to_json(obj):
-        """ returns objects in json format """
-        return json.dumps(obj)
-
-    @staticmethod
-    def from_json(obj):
-        """ returns str from json format """
-        return json.loads(obj)
+        key = f"{obj.__class__.__name__}.{obj.id}"
+        self.__objects[key] = obj
 
     @classmethod
     def save(self):
         """ serializes __objects to the
         JSON file (path: __file_path) """
+        tmp = {}
+        for k, v in self.__objects.items():
+            tmp[k] = v.to_dict()
         with open(self.__file_path, "w", encoding="utf-8") as f:
-            obj = FileStorage.__objects.copy()
-            for v in obj.values():
-                v["created_at"] = str(v["created_at"])
-                v["updated_at"] = str(v["updated_at"])
-            json.dump(obj, f)
-    
-    def create(**dict):
-        name = dict[id]
+            json.dump(tmp, f)
 
     @classmethod
     def reload(self):
         """ deserializes the JSON file to __objects """
         if path.isfile(self.__file_path) is False:
-            return {}
+            return
 
         with open(self.__file_path, encoding="utf-8") as f:
-            deserialized = json.load(f)
-            for k, v in deserialized.items():
-                self.__objects[k] = v
+            des = json.load(f)
+            for k, v in des.items():
+                cls = v['__class__']
+                self.__objects[k] = BaseModel(v)
