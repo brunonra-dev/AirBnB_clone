@@ -35,7 +35,7 @@ class test_base_model(unittest.TestCase):
             "Pycodestyle errors found in base_model.py"
         )
 
-    def test_pep8_base_self(self):
+    def test_pep8_tests(self):
         """
         Test that checks PEP8 test_base_model.py
         """
@@ -44,6 +44,39 @@ class test_base_model(unittest.TestCase):
         self.assertEqual(
             check.total_errors, 0,
             "Pycodestyle errors found in test_base.py"
+        )
+
+    def test_pep8_base_model_init(self):
+        """
+        Test that checks PEP8 base_model.py
+        """
+        syntax = pycodestyle.StyleGuide(quit=True)
+        check = syntax.check_files(['models/__init__.py'])
+        self.assertEqual(
+            check.total_errors, 0,
+            "Pycodestyle errors found in models/__init__.py"
+        )
+
+    def test_pep8_engine_init(self):
+        """
+        Test that checks PEP8 base_model.py
+        """
+        syntax = pycodestyle.StyleGuide(quit=True)
+        check = syntax.check_files(['models/engine/__init__.py'])
+        self.assertEqual(
+            check.total_errors, 0,
+            "Pycodestyle errors found in models/engine/__init__.py"
+        )
+
+    def test_pep8_file_storage(self):
+        """
+        Test that checks PEP8 base_model.py
+        """
+        syntax = pycodestyle.StyleGuide(quit=True)
+        check = syntax.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(
+            check.total_errors, 0,
+            "Pycodestyle errors found in file_storage.py"
         )
 
     def test_docum(self):
