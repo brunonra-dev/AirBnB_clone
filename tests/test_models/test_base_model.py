@@ -5,16 +5,14 @@ import unittest
 import pycodestyle
 import os
 from datetime import datetime
-from models import storage
 from models.base_model import BaseModel
 
 
 class test_base_model(unittest.TestCase):
-    """Tests for base_model.py & file_storage.py"""
+    """Tests for base_model.py"""
 
     @classmethod
     def setUpClass(cls):
-        # self.BaseModel._BaseModel__nb_objects = 0
         cls.b1 = BaseModel()
         cls.b2 = BaseModel()
 
@@ -22,7 +20,6 @@ class test_base_model(unittest.TestCase):
     def tearDownClass(cls):
         del cls.b1
         del cls.b2
-        os.remove("file.json")
 
     def test_pep8_base_model(self):
         """
@@ -35,7 +32,7 @@ class test_base_model(unittest.TestCase):
             "Pycodestyle errors found in base_model.py"
         )
 
-    def test_pep8_tests(self):
+    def test_pep8_self(self):
         """
         Test that checks PEP8 test_base_model.py
         """
@@ -57,17 +54,6 @@ class test_base_model(unittest.TestCase):
             "Pycodestyle errors found in models/__init__.py"
         )
 
-    def test_pep8_engine_init(self):
-        """
-        Test that checks PEP8 base_model.py
-        """
-        syntax = pycodestyle.StyleGuide(quit=True)
-        check = syntax.check_files(['models/engine/__init__.py'])
-        self.assertEqual(
-            check.total_errors, 0,
-            "Pycodestyle errors found in models/engine/__init__.py"
-        )
-
     def test_pep8_test_init(self):
         """
         Test that checks PEP8 base_model.py
@@ -77,17 +63,6 @@ class test_base_model(unittest.TestCase):
         self.assertEqual(
             check.total_errors, 0,
             "Pycodestyle errors found in tests/__init__.py"
-        )
-
-    def test_pep8_file_storage(self):
-        """
-        Test that checks PEP8 base_model.py
-        """
-        syntax = pycodestyle.StyleGuide(quit=True)
-        check = syntax.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(
-            check.total_errors, 0,
-            "Pycodestyle errors found in file_storage.py"
         )
 
     def test_pep8_console(self):
@@ -137,11 +112,6 @@ class test_base_model(unittest.TestCase):
         """check create_at"""
         self.assertEqual(BaseModel().created_at, datetime.now())
 
-    # def test_update_at(self):
-    #     """check update_at"""
-    #     self.b1.save()
-    #     self.assertEqual(self.b1.updated_at, datetime.now())
-
     def test_str(self):
         """check __str__"""
         self.assertTrue(self.b1.__str__)
@@ -165,17 +135,6 @@ class test_base_model(unittest.TestCase):
     def test_dict_rep_empty(self):
         """re-create an instance with empty dictionary"""
         self.assertTrue(BaseModel({}))
-
-    """================Task 5================"""
-
-    def test_all(self):
-        """check all()"""
-        self.assertEqual(type(storage.all()), dict)
-
-    def test_save(self):
-        """check json"""
-        self.b1.save()
-        self.assertTrue(os.path.isfile("file.json"))
 
 
 if __name__ == '__main__':
