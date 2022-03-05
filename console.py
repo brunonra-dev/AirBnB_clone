@@ -14,15 +14,6 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     cls_list = ["BaseModel"]
 
-    @staticmethod
-    def check_classes(lsplit):
-        """check classes"""
-        for k in storage.classes.keys():
-            if k == lsplit[0]:
-                return 1
-
-        return 0
-
     def do_quit(self, line):
         """Quit command to exit the program"""
         return True
@@ -32,6 +23,11 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, line):
+        """
+        Usage: create <class>
+        Creates a new instance of BaseModel, saves it (to the JSON file)
+        and prints the id.
+        """
         if line == "":
             print("** class name missing **")
             return
@@ -41,8 +37,14 @@ class HBNBCommand(cmd.Cmd):
 
         obj = BaseModel()
         print(f"{obj.id}")
+        storage.save()
 
     def do_show(self, line):
+        """
+        Usage: show <class> <object id>
+        Prints the string representation of an instance based on
+        the class name and id.
+        """
         if line == "":
             print("** class name missing **")
             return
@@ -64,31 +66,43 @@ class HBNBCommand(cmd.Cmd):
         print("** class doesn't exist **")
 
     def do_destroy(self, line):
+        """
+        Usage: destroy <class> <object id>
+        Deletes an instance based on the class name and id
+        (save the change into the JSON file).
+        """
         if line == "":
             print("** class name missing **")
             return
 
-        lsplit = line.split()
-        if len(lsplit) == 1:
-            print("** instance id missing **")
-            return
+        l_split = line.split()
+        if len(l_split) == 1:
+            l_split.append("")
 
-        if self.check_classes(lsplit[0]):
-            for k in storage.__objects.keys():
-                if storage.__objects[k].id == lsplit[1]:
-                    del storage.__objects[k]
-                    return
-            print("** no instance found **")
-            return
+        for cls in self.cls_list:
+            if cls == l_split[0]:
+                all_objs = storage.all()
+                for k in all_objs.keys():
+                    if all_objs[k].id == l_split[1]:
+                        del all_objs[k]
+                        storage.save()
+                        return
+                print("** instance id missing **")
+                return
 
         print("** class doesn't exist **")
 
     def do_all(self, line):
-        split_line = line.split()
+        """
+        Usage: All, All <class>
+        Prints all string representation of all instances based
+        or not on the class name.
+        """
+        l_split = line.split()
         count = 1
         if line != "":
             for cls in self.cls_list:
-                if cls != split_line[0]:
+                if cls != l_split[0]:
                     count = 0
                 else:
                     count = 1
@@ -103,6 +117,11 @@ class HBNBCommand(cmd.Cmd):
             return
 
     def do_update(self, line):
+        """
+        Usage: update <class name> <id> <attribute name> "<attribute value>"
+        Updates an instance based on the class name and id by
+        adding or updating attribute
+        """
         split_line = shlex.split(line)
         count = 1
         if len(split_line) == 0:
@@ -133,6 +152,7 @@ class HBNBCommand(cmd.Cmd):
         if len(split_line) == 3:
             print("** value missing **")
         setattr(models.storage.all()[k], split_line[2], split_line[3])
-        
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
