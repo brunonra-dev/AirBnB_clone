@@ -29,15 +29,25 @@ class HBNBCommand(cmd.Cmd):
         Creates a new instance of BaseModel, saves it (to the JSON file)
         and prints the id.
         """
-        if line == "":
+        split_line = line.split()
+        if len(split_line) == 0:
             print("** class name missing **")
             return
-        if line != "BaseModel":
+        count = 1
+        for cls in self.cls_list.keys():
+            if cls != split_line[0]:
+                count = 0
+            else:
+                count = 1
+                break
+        if count == 0:
             print("** class doesn't exist **")
             return
-
-        obj = BaseModel()
-        print(f"{obj.id}")
+        for k in self.cls_list.keys():
+            if k == split_line[0]:
+                obj = self.cls_list[k]()
+                break
+        print("{}".format(obj.id))
         storage.save()
 
     def emptyline(self):
@@ -50,25 +60,38 @@ class HBNBCommand(cmd.Cmd):
         Prints the string representation of an instance based on
         the class name and id.
         """
-        if line == "":
+        l_split = line.split()
+
+        if len(l_split) == 0:
             print("** class name missing **")
             return
-
-        l_split = line.split()
+        for cls in self.cls_list.keys():
+            if cls != l_split[0]:
+                count = 0
+            else:
+                count = 1
+                break
+        if count == 0:
+            print("** class doesn't exist **")
+            return
         if len(l_split) == 1:
-            l_split.append("")
+            print("** instance id missing **")
+            return
+        all_objs = storage.all()
+        correct_id = ""
+        for k in all_objs.keys():
+            if all_objs[k].id == l_split[1]:
+                correct_id = l_split[1]
+        if correct_id == "":
+            print("** no instance found **")
+            return
 
         for cls in self.cls_list.keys():
             if cls == l_split[0]:
-                all_objs = storage.all()
                 for k in all_objs.keys():
                     if all_objs[k].id == l_split[1]:
                         print(all_objs[k])
                         return
-                print("** instance id missing **")
-                return
-
-        print("** class doesn't exist **")
 
     def do_destroy(self, line):
         """
@@ -79,10 +102,28 @@ class HBNBCommand(cmd.Cmd):
         if line == "":
             print("** class name missing **")
             return
-
         l_split = line.split()
+
+        for cls in self.cls_list.keys():
+            if cls != l_split[0]:
+                count = 0
+            else:
+                count = 1
+                break
+        if count == 0:
+            print("** class doesn't exist **")
+            return
         if len(l_split) == 1:
-            l_split.append("")
+            print("** instance id missing **")
+            return
+        correct_id = ""
+        all_objs = storage.all()
+        for k in all_objs.keys():
+            if all_objs[k].id == l_split[1]:
+                correct_id = l_split[1]
+        if correct_id == "":
+            print("** no instance found **")
+            return
 
         for cls in self.cls_list.keys():
             if cls == l_split[0]:
@@ -92,10 +133,6 @@ class HBNBCommand(cmd.Cmd):
                         del all_objs[k]
                         storage.save()
                         return
-                print("** instance id missing **")
-                return
-
-        print("** class doesn't exist **")
 
     def do_all(self, line):
         """
@@ -111,17 +148,23 @@ class HBNBCommand(cmd.Cmd):
                     count = 0
                 else:
                     count = 1
+                    break
         if count == 0:
             print("** class doesn't exist **")
             return
         else:
             all_objs = storage.all()
-            for k in self.cls_list.keys():
-                if k == l_split[0]:
-                    for obj_id in all_objs.keys():
+            if len(l_split) == 1:
+                for obj_id in all_objs.keys():
+                    if all_objs[obj_id].__class__.__name__ == l_split[0]:
                         obj = all_objs[obj_id]
                         print(obj)
-                    return
+                return
+            elif len(l_split) == 0:
+                for obj_id in all_objs.keys():
+                    obj = all_objs[obj_id]
+                    print(obj)
+                return
 
     def do_update(self, line):
         """
@@ -139,6 +182,7 @@ class HBNBCommand(cmd.Cmd):
                 count = 0
             else:
                 count = 1
+                break
         if count == 0:
             print("** class doesn't exist **")
             return
@@ -159,6 +203,7 @@ class HBNBCommand(cmd.Cmd):
             return
         if len(split_line) == 3:
             print("** value missing **")
+            return
         setattr(storage.all()[k], split_line[2], split_line[3])
         storage.save()
 
