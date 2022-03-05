@@ -38,6 +38,10 @@ class HBNBCommand(cmd.Cmd):
         print(f"{obj.id}")
         storage.save()
 
+    def emptyline(self):
+        """ empty line """
+        pass
+
     def do_show(self, line):
         """
         Usage: show <class> <object id>
@@ -142,6 +146,7 @@ class HBNBCommand(cmd.Cmd):
         for k in all_objs.keys():
             if all_objs[k].id == split_line[1]:
                 correct_id = split_line[1]
+                break
         if correct_id == "":
             print("** no instance found **")
             return
