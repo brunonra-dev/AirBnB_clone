@@ -152,6 +152,7 @@ class HBNBCommand(cmd.Cmd):
         if len(split_line) == 3:
             print("** value missing **")
         setattr(models.storage.all()[k], split_line[2], split_line[3])
+        storage.save()
 
 
 if __name__ == '__main__':
