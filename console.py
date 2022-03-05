@@ -10,6 +10,15 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
     cls_list = ["BaseModel"]
 
+    @staticmethod
+    def check_classes(lsplit):
+        """check classes"""
+        for k in storage.classes.keys():
+            if k == lsplit[0]:
+                return 1
+
+        return 0
+
     def do_quit(self, line):
         """Quit command to exit the program"""
         return True
@@ -34,12 +43,12 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        l = line.split()
+        lsplit = line.split()
         if len(l) == 1:
-            l.append("")
+            lsplit.append("")
 
         for cls in self.cls_list:
-            if cls == l[0]:
+            if cls == lsplit[0]:
                 all_objs = storage.all()
                 for k in all_objs.keys():
                     if all_objs[k].id == l[1]:
@@ -51,7 +60,25 @@ class HBNBCommand(cmd.Cmd):
         print("** class doesn't exist **")
 
     def do_destroy(self, line):
-        pass
+        if line == "":
+            print("** class name missing **")
+            return
+
+        lsplit = line.split()
+        if len(lsplit) == 1:
+            print("** instance id missing **")
+            return
+
+        if self.check_classes(lsplit[0]):
+            for k in storage.__objects.keys():
+                if storage.__objects[k].id == lsplit[1]:
+                    del storage.__objects[k]
+                    return
+            print("** no instance found **")
+            return
+
+        print("** class doesn't exist **")
+
     def do_all(self, line):
         split_line = line.split()
         count = 1
