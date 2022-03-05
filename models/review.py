@@ -1,11 +1,11 @@
 """
-Module that defines a class State inherit from BaseModel
+Module that defines a class Review inherit from BaseModel
 """
 from models.base_model import BaseModel
 
 
-class State(BaseModel):
-    """Class State"""
+class Review(BaseModel):
+    """Class Review"""
     place_id = ""
     user_id = ""
     text = ""
