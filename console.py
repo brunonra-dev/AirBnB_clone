@@ -5,7 +5,6 @@ import cmd
 from posixpath import split
 from shlex import shlex
 from models import storage
-import models
 from models.base_model import BaseModel
 import shlex
 
@@ -151,7 +150,7 @@ class HBNBCommand(cmd.Cmd):
             return
         if len(split_line) == 3:
             print("** value missing **")
-        setattr(models.storage.all()[k], split_line[2], split_line[3])
+        setattr(storage.all()[k], split_line[2], split_line[3])
         storage.save()
 
 
