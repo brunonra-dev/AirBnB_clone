@@ -18,7 +18,15 @@ class FileStorage:
     JSON file and deserializes JSON file to instances"""
     __file_path = "file.json"
     __objects = {}
-    __classes = {'BaseModel': BaseModel, 'User': User, "Amenity": Amenity, "City": City, "State": State, "Place": Place, "Review": Review}
+    __classes = {
+        'BaseModel': BaseModel,
+        'User': User,
+        "Amenity": Amenity,
+        "City": City,
+        "State": State,
+        "Place": Place,
+        "Review": Review
+                }
 
     def all(self):
         """ returns the dictionary __objects """

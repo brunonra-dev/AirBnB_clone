@@ -19,8 +19,8 @@ from models.state import State
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
-    cls_list = {"BaseModel": BaseModel, "User": User, "Amenity": Amenity, 
-    "City": City, "Place": Place, "review": review, "State": State}
+    cls_list = {"BaseModel": BaseModel, "User": User, "Amenity": Amenity,
+                "City": City, "Place": Place, "review": review, "State": State}
 
     def do_quit(self, line):
         """Quit command to exit the program"""
