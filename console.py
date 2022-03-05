@@ -2,8 +2,12 @@
 Console - entry point of the command interpreter
 """
 import cmd
+from posixpath import split
+from shlex import shlex
 from models import storage
+import models
 from models.base_model import BaseModel
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -43,15 +47,15 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
 
-        lsplit = line.split()
-        if len(l) == 1:
-            lsplit.append("")
+        l_split = line.split()
+        if len(l_split) == 1:
+            l_split.append("")
 
         for cls in self.cls_list:
-            if cls == lsplit[0]:
+            if cls == l_split[0]:
                 all_objs = storage.all()
                 for k in all_objs.keys():
-                    if all_objs[k].id == l[1]:
+                    if all_objs[k].id == l_split[1]:
                         print(all_objs[k])
                         return
                 print("** instance id missing **")
@@ -99,8 +103,36 @@ class HBNBCommand(cmd.Cmd):
             return
 
     def do_update(self, line):
-        pass
-
-
+        split_line = shlex.split(line)
+        count = 1
+        if len(split_line) == 0:
+            print("** class name missing **")
+            return
+        for cls in self.cls_list:
+            if cls != split_line[0]:
+                count = 0
+            else:
+                count = 1
+        if count == 0:
+            print("** class doesn't exist **")
+            return
+        if len(split_line) == 1:
+            print("** instance id missing **")
+            return
+        all_objs = storage.all()
+        correct_id = ""
+        for k in all_objs.keys():
+            if all_objs[k].id == split_line[1]:
+                correct_id = split_line[1]
+        if correct_id == "":
+            print("** no instance found **")
+            return
+        if len(split_line) == 2:
+            print("** attribute name missing **")
+            return
+        if len(split_line) == 3:
+            print("** value missing **")
+        setattr(models.storage.all()[k], split_line[2], split_line[3])
+        
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
