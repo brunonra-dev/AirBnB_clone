@@ -18,6 +18,7 @@ from models.state import State
 
 
 class HBNBCommand(cmd.Cmd):
+    """Class HBNBCommand"""
     prompt = '(hbnb) '
     cls_list = {"BaseModel": BaseModel, "User": User, "Amenity": Amenity,
                 "City": City, "Place": Place, "review": review, "State": State}
