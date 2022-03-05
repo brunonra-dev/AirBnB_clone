@@ -8,10 +8,12 @@ from models import storage
 from models.base_model import BaseModel
 import shlex
 
+from models.user import User
+
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) '
-    cls_list = ["BaseModel"]
+    cls_list = {"BaseModel": BaseModel, "User": User}
 
     def do_quit(self, line):
         """Quit command to exit the program"""
@@ -56,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         if len(l_split) == 1:
             l_split.append("")
 
-        for cls in self.cls_list:
+        for cls in self.cls_list.keys():
             if cls == l_split[0]:
                 all_objs = storage.all()
                 for k in all_objs.keys():
@@ -82,7 +84,7 @@ class HBNBCommand(cmd.Cmd):
         if len(l_split) == 1:
             l_split.append("")
 
-        for cls in self.cls_list:
+        for cls in self.cls_list.keys():
             if cls == l_split[0]:
                 all_objs = storage.all()
                 for k in all_objs.keys():
@@ -104,7 +106,7 @@ class HBNBCommand(cmd.Cmd):
         l_split = line.split()
         count = 1
         if line != "":
-            for cls in self.cls_list:
+            for cls in self.cls_list.keys():
                 if cls != l_split[0]:
                     count = 0
                 else:
@@ -114,10 +116,12 @@ class HBNBCommand(cmd.Cmd):
             return
         else:
             all_objs = storage.all()
-            for obj_id in all_objs.keys():
-                obj = all_objs[obj_id]
-                print(obj)
-            return
+            for k in self.cls_list.keys():
+                if k == l_split[0]:
+                    for obj_id in all_objs.keys():
+                        obj = all_objs[obj_id]
+                        print(obj)
+                    return
 
     def do_update(self, line):
         """
@@ -130,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
         if len(split_line) == 0:
             print("** class name missing **")
             return
-        for cls in self.cls_list:
+        for cls in self.cls_list.keys():
             if cls != split_line[0]:
                 count = 0
             else:

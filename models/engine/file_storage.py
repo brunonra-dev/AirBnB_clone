@@ -5,6 +5,7 @@ module that defines a FileStorage class
 import json
 from os import path
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -12,7 +13,7 @@ class FileStorage:
     JSON file and deserializes JSON file to instances"""
     __file_path = "file.json"
     __objects = {}
-    __classes = {'BaseModel': BaseModel}
+    __classes = {'BaseModel': BaseModel, 'User': User}
 
     @classmethod
     def all(self):
