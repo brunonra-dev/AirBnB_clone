@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 Console - entry point of the command interpreter
 """
