@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 Module that defines a class Place inherit from BaseModel
 """
