@@ -108,10 +108,6 @@ class test_base_model(unittest.TestCase):
         """check update_at type"""
         self.assertEqual(type(self.b1.updated_at), datetime)
 
-    def test_created_at(self):
-        """check create_at"""
-        self.assertEqual(BaseModel().created_at, datetime.now())
-
     def test_str(self):
         """check __str__"""
         self.assertTrue(self.b1.__str__)
