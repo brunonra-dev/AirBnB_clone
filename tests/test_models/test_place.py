@@ -26,10 +26,10 @@ class test_place(unittest.TestCase):
         Test that checks pycodestyle
         """
         syntax = pycodestyle.StyleGuide(quit=True)
-        check = syntax.check_files(['tests/test_models/test_places.py'])
+        check = syntax.check_files(['tests/test_models/test_place.py'])
         self.assertEqual(
             check.total_errors, 0,
-            "Pycodestyle errors found in test_places.py"
+            "Pycodestyle errors found in test_place.py"
         )
 
     def test_pep8_place(self):
