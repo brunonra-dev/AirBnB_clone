@@ -6,7 +6,7 @@ import pycodestyle
 from models.place import Place
 
 
-class test_file_storage(unittest.TestCase):
+class test_place(unittest.TestCase):
     """Tests for file_storage.py"""
 
     @classmethod
