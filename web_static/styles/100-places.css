@@ -95,6 +95,7 @@ footer {
 .amenities_place {
     margin-top: 40px;
     width: 100%;
+    height: auto;
 }
 
 .amenities_place > h2 {
